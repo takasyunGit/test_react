@@ -4,7 +4,5 @@ class UserOffer < ApplicationRecord
   validates :user_id,  presence: true
   validates :prefecture, presence: true, numericality: { in: 1..47 }
   validates :address, presence: true
-  validates :budget
-  validates :remark
-  validates :type
+  validates :type presence: true, numericality: { in: 1..3 }
 end
