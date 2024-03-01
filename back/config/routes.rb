@@ -13,6 +13,12 @@ Rails.application.routes.draw do
       namespace :auth do
         resources :sessions, only: %i[index]
       end
+      mount_devise_token_auth_for 'Admin', at: 'admin', controllers: {
+        registrations: 'api/v1/admin/registrations'
+      }
+      namespace :admin do
+        resources :sessions, only: %i[index]
+      end
     end
   end
 end
