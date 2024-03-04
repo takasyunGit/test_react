@@ -7,5 +7,8 @@ class VendorUser < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
+  has_many :vendor_offers
+  belongs_to :vendor
+
   validates :vendor_id,  presence: true
 end
