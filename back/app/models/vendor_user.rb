@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
-class User < ActiveRecord::Base
+class VendorUser < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  has_many :user_offers
+  has_many :vendor_offers
+  belongs_to :vendor
+
+  validates :vendor_id,  presence: true
 end
