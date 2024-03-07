@@ -2,8 +2,6 @@ import React, {useContext} from "react"
 import { useNavigate, Link as RouterLink} from "react-router-dom"
 import Cookies from "js-cookie"
 
-import { styled } from "@mui/material/styles"
-
 import AppBar from "@mui/material/AppBar"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
@@ -12,11 +10,10 @@ import IconButton from "@mui/material/IconButton"
 import MenuIcon from "@mui/icons-material/Menu"
 
 import { signOut } from "models/user/auth"
-
-import { AuthContext } from "App"
+import { AuthUserContext } from "components/models/user/AuthUserProvider"
 
 const Header: React.FC = () => {
-  const { loading, isSignedIn, setIsSignedIn} = useContext(AuthContext)
+  const { loading, isSignedIn, setIsSignedIn} = useContext(AuthUserContext)
   const navigate = useNavigate()
 
   const handleSignOut = async(e: React.MouseEvent<HTMLButtonElement>) => {
