@@ -51,6 +51,14 @@ DeviseTokenAuth.setup do |config|
     :'token-type' => 'token-type'
   }
 
+  # DeviseTokenAuth::Concerns::SetUserByTokenのbypass_sign_inにてsessionにVendorUserオブジェクトをそのまま保存してしまい
+  # ActionDispatch::Cookies::CookieOverflowのエラーが起きる。
+  # bypass_sign_in = falseにすることでsessionを保存しなくなる
+  # By default DeviseTokenAuth will not check user's #active_for_authentication? which includes confirmation check on
+  # each call (it will do it only on sign in). If you want it to be validated on each request (for example, to be able
+  # to deactivate logged in users on the fly), set it to false.
+  config.bypass_sign_in = false
+
   # Makes it possible to use custom uid column
   # config.other_uid = "foo"
 
