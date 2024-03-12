@@ -7,10 +7,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :tests, only: %i[index]
-      mount_devise_token_auth_for 'User', at: 'auth', controllers: {
-        registrations: 'api/v1/auth/registrations'
+      mount_devise_token_auth_for 'User', at: 'user', controllers: {
+        registrations: 'api/v1/user/registrations'
       }
-      namespace :auth do
+      namespace :user do
         resources :sessions, only: %i[index]
       end
       mount_devise_token_auth_for 'Admin', at: 'admin', controllers: {
