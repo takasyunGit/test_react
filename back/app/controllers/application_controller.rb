@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from StandardError, with: :render_500
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, with: :render_404
+  rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
 
   def handle_error(e = nil)
     if e
@@ -16,13 +17,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def render_record_invalid(e = nil)
+    handle_error(e)
+    render json: { errors: { messages: e.record.errors.full_messages } }, status: 422
+  end
+
   def render_404(e = nil)
     handle_error(e)
-    render json: { status: 404, messages: "Page not found" }
+    render json: { messages: "Page not found" }, status: 404
   end
 
   def render_500(e = nil)
     handle_error(e)
-    render json: { status: 500, messages: "An unexpected error has occurred" }
+    render json: { messages: "An unexpected error has occurred" }, status: 500
   end
 end
