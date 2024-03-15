@@ -1,5 +1,5 @@
 class Api::V1::User::UserOffersController < ApplicationController
-  # before_action :user_signed_in?
+  before_action :authenticate_user!
 
   def create
     @object = current_user.user_offers.new(user_offer_params)

@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
 
   def render_record_invalid(e = nil)
     handle_error(e)
-    render json: { errors: { messages: e.record.errors.full_messages } }, status: 422
+    render json: { errors: { fullMessages: e.record.errors.full_messages } }, status: 422
   end
 
   def render_404(e = nil)
