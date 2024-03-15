@@ -7,6 +7,15 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :user_signed_in?
 
   rescue_from StandardError, with: :render_500
+  rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, with: :render_404
+
+  def render_404(e = nil)
+    if e
+      logger.error e
+      logger.error e.backtrace.join("\n")
+    end
+    render json: { status: 404, messages: "Page not found" }
+  end
 
   def render_500(e = nil)
     if e
