@@ -3,8 +3,8 @@ class Api::V1::User::UserOffersController < ApplicationController
 
   def show
     @object = UserOffer.where(user_id: current_user.id, id: params[:id])
-    if @object.first
-      render json: { data: @object }
+    if @object
+      render json: { data: @object.first }
     else
       render_404
     end
