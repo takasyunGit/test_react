@@ -1,6 +1,15 @@
 class Api::V1::User::UserOffersController < ApplicationController
   before_action :authenticate_user!
 
+  def show
+    @object = UserOffer.where(user_id: current_user.id, id: params[:id])
+    if @object.first
+      render json: { data: @object }
+    else
+      render_404
+    end
+  end
+
   def create
     @object = current_user.user_offers.new(user_offer_params)
     @object.save!
