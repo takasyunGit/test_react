@@ -1,6 +1,15 @@
 class Api::V1::User::UserOffersController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    @object = UserOffer.where(user_id: current_user.id).order(created_at: :desc)
+    if @object
+      render json: { data: @object }
+    else
+      render_404
+    end
+  end
+
   def show
     @object = UserOffer.where(user_id: current_user.id, id: params[:id])
     if @object
