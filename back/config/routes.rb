@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       namespace :vendor_user do
         resources :sessions, only: %i[index]
         resources :user_offers
+        resources :vendor_offers
       end
     end
   end
