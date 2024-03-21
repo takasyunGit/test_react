@@ -1,8 +1,8 @@
-class Api::V1::VendorUser::VendorOffersController < ApplicationController
-  before_action :authenticate_vendor_user!
+class Api::V1::VendorUser::UserOffersController < ApplicationController
+  before_action :authenticate_api_v1_vendor_user!
 
   def index
-    @object = UserOffer.order(created_at: :desc)
+    @object = UserOffer.order(updated_at: :desc)
     if @object
       render json: { data: @object }
     else
