@@ -2,6 +2,7 @@ class UserOffer < ApplicationRecord
   MAXIMUM_ADDRESS_LENGTH = 150
 
   belongs_to :user
+  has_many :vendor_offers
 
   validates :user_id, presence: true
   validates :prefecture, presence: true, numericality: { in: 1..47 }
