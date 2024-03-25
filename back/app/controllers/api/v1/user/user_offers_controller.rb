@@ -11,7 +11,11 @@ class Api::V1::User::UserOffersController < ApplicationController
   end
 
   def show
-    @object = UserOffer.where(user_id: current_user.id, id: params[:id])
+    from_table = UserOffer.where(user_id: current_user.id, id: params[:id])
+    @object = UserOffer
+      .select("user_offers.*, users.name")
+      .from(from_table, :user_offers)
+      .joins(:user)
     if @object
       render json: { data: @object.first }
     else
