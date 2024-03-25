@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       namespace :user do
         resources :sessions, only: %i[index]
         resources :user_offers
+        resources :vendor_offers
       end
       mount_devise_token_auth_for 'Admin', at: 'admin', controllers: {
         registrations: 'api/v1/admin/registrations'

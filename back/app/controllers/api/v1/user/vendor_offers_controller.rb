@@ -7,6 +7,7 @@ class Api::V1::User::VendorOffersController < ApplicationController
       .select("vendor_offers.*, users.name")
       .from(from_table, :vendor_offers)
       .joins(user_offer: :user)
+      .where("user_offers.user_id": current_user.id)
     if @object
       render json: { data: @object.first }
     else
