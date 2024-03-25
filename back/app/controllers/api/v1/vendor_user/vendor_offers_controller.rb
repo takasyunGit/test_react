@@ -1,6 +1,15 @@
 class Api::V1::VendorUser::VendorOffersController < ApplicationController
   before_action :authenticate_api_v1_vendor_user!
 
+  def index
+    @object = VendorOffer.where(user_offer_id: params[:user_offer_id], vendor_user_id: current_api_v1_vendor_user.id)
+    if @object
+      render json: { data: @object }
+    else
+      render_404
+    end
+  end
+
   def show
     from_table = VendorOffer.where(id: params[:id], vendor_user_id: current_api_v1_vendor_user.id)
     @object = VendorOffer
