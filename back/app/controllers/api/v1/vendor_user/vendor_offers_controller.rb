@@ -23,6 +23,6 @@ class Api::V1::VendorUser::VendorOffersController < ApplicationController
   private
 
   def vendor_offer_params
-    params.require(:vendor_offer).permit(:user_offer_id, :remark, :estimate)
+    params.require(:vendor_offer).permit(:user_offer_id, :title, :remark, :estimate)
   end
 end
