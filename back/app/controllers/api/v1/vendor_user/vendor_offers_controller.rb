@@ -3,11 +3,7 @@ class Api::V1::VendorUser::VendorOffersController < ApplicationController
 
   def index
     @object = VendorOffer.where(user_offer_id: params[:user_offer_id], vendor_user_id: current_api_v1_vendor_user.id)
-    if @object
-      render json: { data: @object }
-    else
-      render_404
-    end
+    render json: { data: @object }
   end
 
   def show

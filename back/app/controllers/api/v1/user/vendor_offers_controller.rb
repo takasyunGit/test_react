@@ -8,11 +8,7 @@ class Api::V1::User::VendorOffersController < ApplicationController
       .from(from_table, :vendor_offers)
       .joins(user_offer: :user)
       .where("user_offers.user_id": current_user.id)
-    if @object
-      render json: { data: @object }
-    else
-      render_404
-    end
+    render json: { data: @object }
   end
 
   def show

@@ -3,11 +3,7 @@ class Api::V1::User::UserOffersController < ApplicationController
 
   def index
     @object = UserOffer.where(user_id: current_user.id).order(created_at: :desc)
-    if @object
-      render json: { data: @object }
-    else
-      render_404
-    end
+    render json: { data: @object }
   end
 
   def show
