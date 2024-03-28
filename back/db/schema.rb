@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_25_084709) do
+ActiveRecord::Schema.define(version: 2024_03_28_041526) do
 
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 2024_03_25_084709) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_offer_id"
     t.string "title"
+    t.index ["updated_at"], name: "index_vendor_offers_on_updated_at"
     t.index ["vendor_user_id"], name: "index_vendor_offers_on_vendor_user_id"
   end
 
