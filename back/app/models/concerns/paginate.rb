@@ -38,7 +38,9 @@ module Paginate
       records = records.order("#{klass_name}.#{order_column} #{sort_order&.to_s}").order("#{klass_name}.id asc").limit(per_page)
 
       # 各ページの最終レコードのみ抽出
-      from_table = self.select(
+      scope = current_scope || relation
+      scope = scope.select('*') if scope.select_values.blank?
+      from_table = scope.select(
         <<~SQL.gsub(/\n/," ")
           CASE (ROW_NUMBER() OVER(ORDER BY #{klass_name}.#{order_column} #{sort_order&.to_s}, #{klass_name}.id asc) % #{per_page})
           WHEN 0 THEN 1
