@@ -1,5 +1,5 @@
 class Api::V1::User::VendorOffersController < ApplicationController
-  NUMBER_OF_PER_PAGE = 5
+  NUMBER_OF_PER_PAGE = 10
   before_action :authenticate_api_v1_user!
 
   def index

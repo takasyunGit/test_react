@@ -16,8 +16,8 @@ module Paginate
       key_record = self.where("#{klass_name}.id": key_id).first
       asc_desc = sort_order&.to_s&.downcase == "desc" ? ">" : "<"
       column_type = self.columns_hash[order_column].type
-      case
-      when column_type == :datetime
+      case column_type
+      when :datetime
         key_record_value = "\"#{key_record.try(order_column)&.strftime('%Y-%m-%d %H:%M:%S')}\""
       else
         key_record_value = key_record.try(order_column)
