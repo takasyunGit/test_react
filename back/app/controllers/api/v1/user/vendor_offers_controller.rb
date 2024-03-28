@@ -1,4 +1,5 @@
 class Api::V1::User::VendorOffersController < ApplicationController
+  NUMBER_OF_PER_PAGE = 5
   before_action :authenticate_api_v1_user!
 
   def index
@@ -7,7 +8,7 @@ class Api::V1::User::VendorOffersController < ApplicationController
       .joins(user_offer: :user)
       .where(user_offer_id: params[:user_offer_id])
       .where("user_offers.user_id": current_user.id)
-    @object = @object.paginate_order(nil, "desc", 5, "updated_at")
+    @object = @object.paginate_order(params[:key_id], "desc", NUMBER_OF_PER_PAGE, "updated_at")
     render json: { data: @object }
   end
 
