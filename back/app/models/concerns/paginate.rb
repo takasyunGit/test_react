@@ -32,6 +32,8 @@ module Paginate
               (#{key_record_value} = #{klass_name}.#{order_column} and #{key_record.id} < #{klass_name}.id)
           SQL
         )
+      else
+        records = self
       end
       records = records.order("#{klass_name}.#{order_column} #{sort_order&.to_s}").order("#{klass_name}.id asc").limit(per_page)
 

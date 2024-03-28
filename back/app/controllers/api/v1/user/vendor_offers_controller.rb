@@ -7,7 +7,7 @@ class Api::V1::User::VendorOffersController < ApplicationController
       .joins(user_offer: :user)
       .where(user_offer_id: params[:user_offer_id])
       .where("user_offers.user_id": current_user.id)
-    @object.paginate_order(8, "desc", 5, "updated_at")
+    @object = @object.paginate_order(nil, "desc", 5, "updated_at")
     render json: { data: @object }
   end
 
