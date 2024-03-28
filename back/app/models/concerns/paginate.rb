@@ -1,6 +1,8 @@
 module Paginate
   extend ActiveSupport::Concern
 
+  FIRST_PAGE = 1
+
   class_methods do
     # key_id        このidを持つレコードを起点にレコードを取得する。
     # sort_order   "asc"または"desc"
@@ -54,7 +56,7 @@ module Paginate
         .where("x.page_boundary = 1")
         .order("page_number asc")
 
-      paginate_key_hash = {1 => nil}
+      paginate_key_hash = {FIRST_PAGE => nil}
       paginate_key_ids.map do |r|
         paginate_key_hash.store(r.page_number, r.id)
       end
