@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_28_041526) do
+ActiveRecord::Schema.define(version: 2024_04_02_071133) do
 
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -78,6 +78,29 @@ ActiveRecord::Schema.define(version: 2024_03_28_041526) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+  end
+
+  create_table "vendor_offer_chats", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "vendor_user_id"
+    t.integer "vendor_offer_id"
+    t.string "message", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_vendor_offer_chats_on_user_id"
+    t.index ["vendor_offer_id"], name: "index_vendor_offer_chats_on_vendor_offer_id"
+    t.index ["vendor_user_id"], name: "index_vendor_offer_chats_on_vendor_user_id"
+  end
+
+  create_table "vendor_offer_messages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "vendor_user_id"
+    t.integer "user_id"
+    t.text "message"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "vendor_offer_id"
+    t.index ["user_id"], name: "index_vendor_offer_messages_on_user_id"
+    t.index ["vendor_user_id"], name: "index_vendor_offer_messages_on_vendor_user_id"
   end
 
   create_table "vendor_offers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
