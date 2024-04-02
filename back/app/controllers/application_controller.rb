@@ -31,4 +31,12 @@ class ApplicationController < ActionController::Base
     handle_error(e)
     render json: { messages: "An unexpected error has occurred" }, status: 500
   end
+
+  def common_authentication!
+    if params[:sign_in_type] == "User"
+      current_user = current_api_v1_user
+    else
+      current_user = current_api_v1_vendor_user
+    end
+  end
 end
