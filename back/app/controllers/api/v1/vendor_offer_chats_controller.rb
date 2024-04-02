@@ -1,4 +1,4 @@
-class VendorOfferChatsController < ApplicationController
+class Api::V1::VendorOfferChatsController < ApplicationController
   NUMBER_OF_PER_PAGE = 10
 
   before_action :common_authentication!

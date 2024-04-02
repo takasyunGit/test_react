@@ -29,8 +29,8 @@ Rails.application.routes.draw do
         resources :sessions, only: %i[index]
         resources :user_offers
         resources :vendor_offers
-        resources :vendor_offer_chats, only: %i[index create]
       end
+      resources :vendor_offer_chats, only: %i[index create]
     end
   end
 end
