@@ -11,18 +11,20 @@ class Api::V1::VendorOfferChatsController < ApplicationController
 
   def create
     VendorOfferChat.create!(vendor_offer_chat_params)
-    return render :index
+    return index
   end
 
   private
 
   def vendor_offer_chat_params
-    params = params.require(:vendor_offer_chat).permit(:vendor_offer_id, message: params[:message].sanitize)
-
-    if current_user.kind_of(User)
-      params.merge(user_id: current_user)
+    if current_user.kind_of?(User)
+      params.require(:vendor_offer_chat)
+        .permit(:vendor_offer_id, :message)
+        .merge(user_id: current_user.id)
     else
-      params.merge(vendor_user_id: current_user)
+      params.require(:vendor_offer_chat)
+        .permit(:vendor_offer_id, :message)
+        .merge(vendor_user_id: current_user.id)
     end
   end
 end
