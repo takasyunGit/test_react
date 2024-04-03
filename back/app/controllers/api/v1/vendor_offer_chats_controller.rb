@@ -4,7 +4,14 @@ class Api::V1::VendorOfferChatsController < ApplicationController
   before_action :common_authentication!
 
   def index
-    @objects = VendorOfferChat.where(vendor_offer_id: params[:vendor_offer_id])
+    @objects = VendorOfferChat.select("vendor_offer_chats.*, COALESCE(users.name, vendor_users.name, '不明なユーザー') as name")
+      .where(vendor_offer_id: params[:vendor_offer_id])
+      .joins(
+        <<~SQL
+          LEFT OUTER JOIN users ON vendor_offer_chats.user_id = users.id
+          LEFT OUTER JOIN vendor_users ON vendor_offer_chats.vendor_user_id = vendor_users.id
+        SQL
+      )
     @objects = @objects.paginate_order(params[:key_id], "desc", NUMBER_OF_PER_PAGE, "created_at")
     render json: { data: @objects }
   end
