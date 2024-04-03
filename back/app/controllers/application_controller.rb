@@ -41,8 +41,8 @@ class ApplicationController < ActionController::Base
   end
 
   def common_authentication!
-    current_user = current_api_v1_user || current_api_v1_vendor_user
-    unless current_user
+    @@current_user = current_api_v1_user || current_api_v1_vendor_user
+    unless @@current_user
       raise UnauthorizedError
     end
   end

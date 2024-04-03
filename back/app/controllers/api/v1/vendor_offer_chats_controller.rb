@@ -17,14 +17,14 @@ class Api::V1::VendorOfferChatsController < ApplicationController
   private
 
   def vendor_offer_chat_params
-    if current_user.kind_of?(User)
+    if @@current_user.kind_of?(User)
       params.require(:vendor_offer_chat)
         .permit(:vendor_offer_id, :message)
-        .merge(user_id: current_user.id)
+        .merge(user_id: @@current_user.id)
     else
       params.require(:vendor_offer_chat)
         .permit(:vendor_offer_id, :message)
-        .merge(vendor_user_id: current_user.id)
+        .merge(vendor_user_id: @@current_user.id)
     end
   end
 end
