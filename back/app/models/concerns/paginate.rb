@@ -62,7 +62,7 @@ module Paginate
 
       # 取得したレコード数が表示件数で割り切れる場合、最後のページに何も表示されなくなるため最後のページを削除する。
       if self.all.length % per_page == 0
-        paginate_key_hash.delete(paginate_key_ids.last.page_number)
+        paginate_key_hash.delete(paginate_key_ids.last&.page_number)
       end
 
       return {"records": records, "paginate": paginate_key_hash}
