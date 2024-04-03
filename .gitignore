@@ -28,3 +28,7 @@ yarn-error.log*
 /back/storage/
 /mysql/
 .ruby-version
+.ssh
+.env
+/back/db/schema
+/back/Gemfile.lock
