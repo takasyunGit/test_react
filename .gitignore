@@ -32,3 +32,4 @@ yarn-error.log*
 .env
 /back/db/schema
 /back/Gemfile.lock
+/front/package-lock.json
