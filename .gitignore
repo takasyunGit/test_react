@@ -33,3 +33,4 @@ yarn-error.log*
 /back/db/schema
 /back/Gemfile.lock
 /front/package-lock.json
+/back/public/uploads

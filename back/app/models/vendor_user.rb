@@ -10,5 +10,7 @@ class VendorUser < ActiveRecord::Base
   has_many :vendor_offers
   belongs_to :vendor
 
+  mount_uploader :avatar, AvatarUploader
+
   validates :vendor_id,  presence: true
 end
