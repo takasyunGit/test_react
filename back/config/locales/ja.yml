@@ -1,0 +1,6 @@
+ja:
+  activerecord:
+    attributes:
+      vendor_offer:
+        estimate: お見積り
+        remark: 備考

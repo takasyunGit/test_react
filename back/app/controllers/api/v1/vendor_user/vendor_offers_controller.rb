@@ -27,6 +27,29 @@ class Api::V1::VendorUser::VendorOffersController < ApplicationController
     render json: { data: @object }
   end
 
+  def update
+    @object = VendorOffer.where(id: params[:id], vendor_user_id: current_api_v1_vendor_user.id).first
+    ActiveRecord::Base.transaction do
+      @object.update!(vendor_offer_params)
+      message = "ご提案の修正\n"
+      message_hash = @object.previous_changes
+      message_hash.delete("updated_at")
+      message_hash.map do |key, value|
+        case key
+        when "estimate"
+          message += "#{VendorOffer.human_attribute_name(key)}: ¥#{value.first.to_s(:delimited)} => ¥#{value.second.to_s(:delimited)}\n"
+        when "remark"
+          message += "#{VendorOffer.human_attribute_name(key)}: #{value.first}\n=>\n#{value.second}\n"
+        else
+          message += "#{VendorOffer.human_attribute_name(key)}: #{value.first} => #{value.second}"
+        end
+      end
+
+      VendorOfferChat.create!(vendor_user_id: current_api_v1_vendor_user.id, vendor_offer_id: params[:id], message: message)
+    end
+    render json: { data: @object }
+  end
+
   private
 
   def vendor_offer_params
