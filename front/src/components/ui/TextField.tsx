@@ -14,13 +14,16 @@ type ChildProps<T = string> = {
   value: T,
   required?: boolean
   type?: string
-  minRows?: string
+  minRows?: number
+  maxRows?: number
+  sx?: {[key: string]: string | number}
   onChange: (targetValue: T) => void
   onBlur?: (targetValue: T) => void
+  onKeyDown?: (e: React.KeyboardEvent<HTMLDivElement>) => void
 }
 
 export const RequiredTextField = (props: ChildProps) => {
-  const { label, value, required = true, type = "text", minRows = "", onChange, onBlur = () => {} } = props
+  const { label, value, required = true, type = "text", minRows = 1, maxRows = 1, onChange, onBlur = () => {}, onKeyDown  = () => {}} = props
 
   return (
     <TextField
@@ -30,28 +33,35 @@ export const RequiredTextField = (props: ChildProps) => {
       fullWidth
       multiline
       minRows={minRows}
+      maxRows={maxRows}
       label={label}
       value={value}
       margin="dense"
       onChange={e => onChange(e.target.value)}
       onBlur={e => onBlur(e.target.value)}
+      onKeyDown={onKeyDown}
     />
   )
 }
 
 export const OptionalTextField = (props: ChildProps) => {
+  const {onKeyDown = () => {}} = props
+
   return (
     <RequiredTextField
       required={false}
       label={props.label}
       value={props.value}
       minRows={props.minRows}
+      maxRows={props.minRows}
       onChange={e => props.onChange(e)}
+      onKeyDown={e => onKeyDown(e)}
     />
   )
 }
 
 export const AmountForm = (props: ChildProps) => {
+  const {onKeyDown = () => {}} = props
   // 全角は半角に変換し、3桁ごとにカンマを差し込む
   const formatter = (str: string): string => {
     const removed = str.replace(/,/g, '')
@@ -68,6 +78,7 @@ export const AmountForm = (props: ChildProps) => {
       value={props.value}
       onChange={e => props.onChange(e)}
       onBlur={e => props.onChange(formatter(e))}
+      onKeyDown={e => onKeyDown(e)}
     />
   )
 }
@@ -108,10 +119,11 @@ type PasswordProps = {
   value: string
   setPassword: (value: string) => void
   setShowPassword: (value: (show: boolean) => boolean) => void
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
 export const PasswordForm: React.FC<PasswordProps> = (props) => {
-  const {id, label, showPassword, value, setPassword, setShowPassword} = props
+  const {id, label, showPassword, value, setPassword, setShowPassword, onKeyDown} = props
   const handleSetShowPassword = () => {
     setShowPassword((show) => !show)
   }
@@ -124,6 +136,7 @@ export const PasswordForm: React.FC<PasswordProps> = (props) => {
         type={showPassword ? 'text' : 'password'}
         value={value}
         onChange={e => setPassword(e.target.value)}
+        onKeyDown={onKeyDown}
         endAdornment={
           <InputAdornment position="end">
             <IconButton
