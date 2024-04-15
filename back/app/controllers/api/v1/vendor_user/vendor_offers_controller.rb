@@ -50,6 +50,14 @@ class Api::V1::VendorUser::VendorOffersController < ApplicationController
     render json: { data: @object }
   end
 
+  def destroy
+    @object = VendorOffer.where(id: params[:id], vendor_user_id: current_api_v1_vendor_user.id).first
+    ActiveRecord::Base.transaction do
+      @object.destroy!
+    end
+    render json: { message: "Deletion succeeded"}
+  end
+
   private
 
   def vendor_offer_params
