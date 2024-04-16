@@ -1,6 +1,8 @@
+require 'uri'
 class Api::V1::VendorOfferChatsController < ApplicationController
+  include Api::V1::Concerns::SetImageUrl
+
   NUMBER_OF_PER_PAGE = 10
-  require 'uri'
 
   before_action :common_authentication!
 
@@ -20,20 +22,8 @@ class Api::V1::VendorOfferChatsController < ApplicationController
         SQL
       )
     @objects = @objects.paginate_order(params[:key_id], "desc", NUMBER_OF_PER_PAGE, "created_at")
-    # avatarのurlをfullpathで返却するために加工
-    # ここのpathは本番環境で変わるので要修正
-    domain = Rails.env.production? ? "http://localhost:3010" : "http://localhost:3010"
-    @objects[:records] = @objects[:records].map do |obj|
-      if obj.avatar
-        if obj.user_id
-          obj.avatar = { url: "#{domain}/uploads/user/avatar/#{obj.user_id}/#{URI.encode_www_form_component(obj.avatar)}" }
-        end
-        if obj.vendor_user_id
-          obj.avatar = { url: "#{domain}/uploads/vendor_user/avatar/#{obj.vendor_user_id}/#{URI.encode_www_form_component(obj.avatar)}" }
-        end
-      end
-      obj
-    end
+    set_avatar_img_url(@objects[:records])
+
     render json: { data: @objects }
   end
 
