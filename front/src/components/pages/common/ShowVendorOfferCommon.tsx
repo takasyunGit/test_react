@@ -3,7 +3,8 @@ import { useNavigate, useParams } from "react-router-dom"
 
 import { Card, CardHeader, CardContent, Typography, Button, Avatar, Box, Grid, Pagination } from "@mui/material"
 
-import { AlertMessageContext, AmountForm, DefaultButton, DisplayErrors, OptionalTextField, ProgressCircle, RequiredTextField, initialPaginate } from "@src/components/ui"
+import { AuthVendorUserContext } from "@src/components/models/vendor_user"
+import { AlertMessageContext, AmountForm, DefaultButton, DisplayErrors, OptionalTextField, ProgressCircle, RequiredTextField, initialPaginate, stringAvatar } from "@src/components/ui"
 import { updateVendorOffer, getVendorOffer } from "@src/models/vendor_offer/request"
 import { getVendorOfferChat } from "@src/models/vendor_offer_chat/request"
 import { createVendorOfferChat } from "@src/models/vendor_offer_chat/request"
@@ -23,12 +24,8 @@ type VendorOfferWithPaginateType = {
 }
 
 const ShowVednorOfferCommon: React.FC<Props> = (props) => {
-  const { signInType } = props
-  const vendorOfferId = useParams().vendor_offer_id as string
   const navigate = useNavigate()
   const [message, setMessage] = useState<string>('')
-  const { setAlertMessageOpen, setAlertMessage } = useContext(AlertMessageContext)
-  const params = useParams()
   const [chatLoading, setChatLoading] = useState<boolean>(true)
   const [vendorOffer, setVendorOffer] = useState<ShowVendorOfferType | undefined>()
   const [vendorOfferChatListWithPaginate, setVendorOfferChatListWithPaginate] = useState<VendorOfferWithPaginateType>()
@@ -38,6 +35,11 @@ const ShowVednorOfferCommon: React.FC<Props> = (props) => {
   const [estimate, setEstimate] = useState<string>('')
   const [offerErrors, setOfferErrors] = useState<any>()
   const [chatErrors, setChatErrors] = useState<any>()
+  const { currentVendorUser } = useContext(AuthVendorUserContext)
+  const { setAlertMessageOpen, setAlertMessage } = useContext(AlertMessageContext)
+  const { signInType } = props
+  const params = useParams()
+  const vendorOfferId = useParams().vendor_offer_id as string
   const paginateNumberList = vendorOfferChatListWithPaginate?.paginate || {}
   const vendorOfferChatList = vendorOfferChatListWithPaginate?.records || []
   const vendorOfferStyleCss = {mr: 2, width: "8%"}
@@ -116,44 +118,16 @@ const ShowVednorOfferCommon: React.FC<Props> = (props) => {
   }
 
   const activeColor = (chat: ShowVendorOfferChatType) => {
+    const ACTIVE = "#fdf5e6"
+    const NOT_ACTIVE = "#fff"
     let colorCode
 
     if (signInType == "User") {
-      colorCode = chat.userId ? "#fdf5e6" : "#fff"
+      colorCode = chat.userId ? ACTIVE : NOT_ACTIVE
     } else {
-      colorCode = chat.vendorUserId ? "#fdf5e6" : "#fff"
+      colorCode = chat.vendorUserId && chat.vendorUserId == currentVendorUser?.id ? ACTIVE : NOT_ACTIVE
     }
     return colorCode
-  }
-
-  const stringToColor = (string: string) => {
-    let hash = 0
-    let i
-
-    for (i = 0; i < string.length; i += 1) {
-      hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    let color = '#'
-
-    for (i = 0; i < 3; i += 1) {
-      const value = (hash >> (i * 8)) & 0xff
-      color += `00${value.toString(16)}`.slice(-2);
-    }
-
-    return color
-  }
-
-  const stringAvatar = (name: string | undefined) => {
-    if(!name) return
-
-    const initial = name.split(' ')[0][0] + (name.split(' ')[1]?.[0] || "")
-    return {
-      sx: {
-        bgcolor: stringToColor(name),
-      },
-      children: initial,
-    };
   }
 
   const editToggle = () => {
@@ -253,7 +227,7 @@ const ShowVednorOfferCommon: React.FC<Props> = (props) => {
             </DefaultButton> : null
           }
           {
-            signInType === "Vendor" ?
+            signInType === "Vendor" && vendorOffer?.vendorUserId == currentVendorUser?.id?
             <Button
               variant="contained"
               size="large"

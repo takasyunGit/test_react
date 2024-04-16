@@ -7,8 +7,9 @@ class VendorUser < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  has_many :vendor_offers
   belongs_to :vendor
+  has_many :vendor_offers
+  has_many :vendor_offer_chats
 
   mount_uploader :avatar, AvatarUploader
 

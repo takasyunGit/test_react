@@ -1,15 +1,27 @@
 class Api::V1::User::VendorOffersController < ApplicationController
+  include Api::V1::Concerns::SetImageUrl
+
   NUMBER_OF_PER_PAGE = 10
   before_action :authenticate_api_v1_user!
 
   def index
-    @object = VendorOffer
-      .select("vendor_offers.*, users.name")
-      .joins(user_offer: :user)
+    @objects = VendorOffer
+      .select(
+        <<~SQL.gsub(/\n/," ")
+          vendor_offers.*,
+          users.name,
+          vendors.name as vendor_name,
+          vendor_users.name as vendor_user_name,
+          vendor_users.avatar as avatar
+        SQL
+      ).joins(user_offer: :user)
+      .joins(vendor_user: :vendor)
       .where(user_offer_id: params[:user_offer_id])
       .where("user_offers.user_id": current_user.id)
-    @object = @object.paginate_order(params[:key_id], "desc", NUMBER_OF_PER_PAGE, "updated_at")
-    render json: { data: @object }
+    @objects = @objects.paginate_order(params[:key_id], "desc", NUMBER_OF_PER_PAGE, "updated_at")
+    set_avatar_img_url(@objects[:records])
+
+    render json: { data: @objects }
   end
 
   def show

@@ -10,4 +10,5 @@ class User < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
 
   has_many :user_offers
+  has_many :vendor_offer_chats
 end
