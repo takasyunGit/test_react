@@ -11,7 +11,11 @@ module Api::V1::Concerns
     # avatarのurlをfullpathで返却するために加工
     # records_array: ActiveRecordRelation or Array
     def set_avatar_img_url(records_array)
+      return records_array if records_array.blank?
+
       block = set_avatar_img_url_block(records_array)
+      raise StandardError.new("\'set_avatar_img_url\' method can't handle #{records_array.first.class} class") if !block
+
       records_array = records_array.map &block
     end
 
