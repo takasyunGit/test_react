@@ -11,13 +11,13 @@ module Api::V1::Concerns
     # avatarのurlをfullpathで返却するために加工
     # records_array: ActiveRecordRelation or Array
     def set_avatar_img_url(records_array)
-      block = set_img_url_block(records_array)
+      block = set_avatar_img_url_block(records_array)
       records_array = records_array.map &block
     end
 
     private
 
-    def set_img_url_block(records_array)
+    def set_avatar_img_url_block(records_array)
       case records_array.first
       when VendorOffer then
         block = proc do |obj|
