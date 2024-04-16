@@ -22,7 +22,7 @@ class Api::V1::VendorUser::VendorOffersController < ApplicationController
   end
 
   def show
-    from_table = VendorOffer.where(id: params[:id], vendor_user_id: current_api_v1_vendor_user.id)
+    from_table = VendorOffer.joins(vendor_user: :vendor).where(id: params[:id], vendor_users: { vendor_id: current_api_v1_vendor_user.vendor_id})
     @object = VendorOffer
       .select("vendor_offers.*, users.name")
       .from(from_table, :vendor_offers)
