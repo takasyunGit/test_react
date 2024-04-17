@@ -28,6 +28,6 @@ class Api::V1::User::UserOffersController < ApplicationController
   private
 
   def user_offer_params
-    params.require(:user_offer).permit(:prefecture, :address, :budget, :remark, :request_type)
+    params.require(:user_offer).permit(:prefecture, :address, :budget, :remark, :request_type, {images: []})
   end
 end

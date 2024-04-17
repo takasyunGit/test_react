@@ -1,6 +1,8 @@
 class UserOffer < ApplicationRecord
   MAXIMUM_ADDRESS_LENGTH = 150
 
+  mount_uploaders :images, UserOfferImageUploader
+
   belongs_to :user
   has_many :vendor_offers
 
