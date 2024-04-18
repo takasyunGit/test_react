@@ -4,3 +4,6 @@ ja:
       vendor_offer:
         estimate: お見積り
         remark: 備考
+  errors:
+    messages:
+      max_size_error: アップロードできる画像は5MBまでです。
