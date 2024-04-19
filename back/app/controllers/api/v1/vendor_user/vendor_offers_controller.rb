@@ -51,7 +51,11 @@ class Api::V1::VendorUser::VendorOffersController < ApplicationController
 
   def update
     ActiveRecord::Base.transaction do
-      @object = VendorOffer.where(id: params[:id], vendor_user_id: current_api_v1_vendor_user.id).first
+      @object = VendorOffer
+        .select("vendor_offers.*, users.name")
+        .joins(user_offer: :user)
+        .where(id: params[:id], vendor_user_id: current_api_v1_vendor_user.id)
+        .first
       @object.update!(vendor_offer_params)
       vendor_offer_images_params[:remove_image_ids].delete_if{ |id| id.match(/^blob:http/) } if vendor_offer_images_params[:remove_image_ids].present?
       delete_images = @object.vendor_offer_images.where(id: vendor_offer_images_params[:remove_image_ids])
