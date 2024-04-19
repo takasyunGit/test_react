@@ -1,11 +1,10 @@
 import Cookies from "js-cookie"
 
-import { CreateVendorOfferParams, UpdateVendorOfferParams } from "@src/models/vendor_offer/type"
 import { clientRequest } from "@src/utils/client"
 
 import type { SignInType } from "@src/utils/type"
 
-export const createVendorOffer = (params: CreateVendorOfferParams) => {
+export const createVendorOffer = (data: FormData) => {
   if (!Cookies.get("_access_token_v") || !Cookies.get("_client_v") || !Cookies.get("_uid_v")) return
   const sessions = {
     accessToken: Cookies.get("_access_token_v"),
@@ -13,17 +12,17 @@ export const createVendorOffer = (params: CreateVendorOfferParams) => {
     uid: Cookies.get("_uid_v")
   }
 
-  return clientRequest("post", "vendor_user/vendor_offers", params, sessions)
+  return clientRequest("post", "vendor_user/vendor_offers", data, sessions)
 }
 
-export const updateVendorOffer = (params: UpdateVendorOfferParams) => {
+export const updateVendorOffer = (id: number, data: FormData) => {
   if (!Cookies.get("_access_token_v") || !Cookies.get("_client_v") || !Cookies.get("_uid_v")) return
   const sessions = {
     accessToken: Cookies.get("_access_token_v"),
     headerClient: Cookies.get("_client_v"),
     uid: Cookies.get("_uid_v")
   }
-  return clientRequest("patch", "vendor_user/vendor_offers/" + params.id, params, sessions)
+  return clientRequest("patch", "vendor_user/vendor_offers/" + id, data, sessions)
 }
 
 export const deleteVendorOffer = (id: number | string) => {
