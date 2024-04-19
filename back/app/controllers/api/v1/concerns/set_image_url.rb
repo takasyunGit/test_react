@@ -8,6 +8,7 @@ module Api::V1::Concerns
     # ここのpathは本番環境で変わるので要修正
     DOMAIN = Rails.env.production? ? "http://localhost:3010" : "http://localhost:3010"
 
+    # 内部結合等でくっつけたurlはcarrierwaveは感知しないためurlを作成する必要がある
     # avatarのurlをfullpathで返却するために加工
     # records_array: ActiveRecordRelation or Array
     def set_avatar_img_url(records_array)
