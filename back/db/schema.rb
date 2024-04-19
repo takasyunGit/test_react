@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_04_18_073211) do
+ActiveRecord::Schema.define(version: 2024_04_19_063150) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -120,6 +120,14 @@ ActiveRecord::Schema.define(version: 2024_04_18_073211) do
     t.index ["user_id"], name: "index_vendor_offer_chats_on_user_id"
     t.index ["vendor_offer_id"], name: "index_vendor_offer_chats_on_vendor_offer_id"
     t.index ["vendor_user_id"], name: "index_vendor_offer_chats_on_vendor_user_id"
+  end
+
+  create_table "vendor_offer_images", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "vendor_offer_id"
+    t.json "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["vendor_offer_id"], name: "index_vendor_offer_images_on_vendor_offer_id"
   end
 
   create_table "vendor_offer_messages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
