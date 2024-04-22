@@ -30,5 +30,4 @@ yarn-error.log*
 .ruby-version
 .ssh
 .env
-/front/package-lock.json
 /back/public/uploads
