@@ -28,3 +28,7 @@ yarn-error.log*
 /back/storage/
 /mysql/
 .ruby-version
+.ssh
+.env
+/front/package-lock.json
+/back/public/uploads

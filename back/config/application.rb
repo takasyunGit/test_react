@@ -36,7 +36,7 @@ module RailsApp
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
-
+    config.i18n.default_locale = :ja
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins "http://localhost:3000"
@@ -50,5 +50,8 @@ module RailsApp
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
     config.middleware.use ActionDispatch::ContentSecurityPolicy::Middleware
+
+    config.time_zone = 'Tokyo'
+    config.active_record.default_timezone = :local
   end
 end

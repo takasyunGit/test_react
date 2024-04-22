@@ -6,4 +6,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
+
+  mount_uploader :avatar, AvatarUploader
+
+  has_many :user_offers
+  has_many :vendor_offer_chats
 end
