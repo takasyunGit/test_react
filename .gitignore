@@ -30,7 +30,5 @@ yarn-error.log*
 .ruby-version
 .ssh
 .env
-/back/db/schema
-/back/Gemfile.lock
 /front/package-lock.json
 /back/public/uploads
